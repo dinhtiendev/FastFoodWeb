@@ -24,7 +24,7 @@ namespace FastFoodWeb.Controllers
             return View();
         }
 
-        public IActionResult ChangePassword()
+        public IActionResult DoChangePassword()
         {
             return View();
         }

@@ -46,7 +46,7 @@ namespace FastFoodWeb
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Details}/{id?}");
+                    pattern: "{controller=Home}/{action=Shop}/{id=0}/{page=1}/{info=}");
             });
         }
     }
