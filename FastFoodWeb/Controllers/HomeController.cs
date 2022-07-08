@@ -22,7 +22,7 @@ namespace FastFoodWeb.Controllers
             return View(foods);
         }
 
-        public IActionResult Shop(int id, int page)
+        public IActionResult Shop(int id, int page, string info)
         {
             List<Category> categories = new List<Category>();
             List<Food> foods = new List<Food>();
@@ -30,17 +30,24 @@ namespace FastFoodWeb.Controllers
             using (var context = new FastFoodContext())
             {
                 categories = context.Categories.ToList();
-                if (id == 0)
+                if (id == 0 && String.IsNullOrWhiteSpace(info))
                 {
                     foods = context.Foods.Skip((page - 1) * 6).Take(6).ToList();
                     maxPage = context.Foods.ToList().Count / 6 + 1;
-                }
-                else {
+                } else if (id == 0) {
+                    foods = context.Foods.Where(x => x.Name.Contains(info)).Skip((page - 1) * 6).Take(6).ToList();
+                    maxPage = context.Foods.Where(x => x.Name.Contains(info)).ToList().Count / 6 + 1;
+                } else if (String.IsNullOrWhiteSpace(info)) {
                     foods = context.Foods.Where(x => x.CategoryId == id).Skip((page - 1) * 6).Take(6).ToList();
                     maxPage = context.Foods.Where(x => x.CategoryId == id).ToList().Count / 6 + 1;
+                } else
+                {
+                    foods = context.Foods.Where(x => x.CategoryId == id && x.Name.Contains(info)).Skip((page - 1) * 6).Take(6).ToList();
+                    maxPage = context.Foods.Where(x => x.CategoryId == id && x.Name.Contains(info)).ToList().Count / 6 + 1;
                 }
                 
             }
+            ViewBag.Info = info;
             ViewBag.CategoryId = id;
             ViewBag.MaxPage = maxPage;
             ViewBag.Page = page;
@@ -48,9 +55,26 @@ namespace FastFoodWeb.Controllers
             return View(foods);
         }
 
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return View();
+            List<Food> relatedFoods = new List<Food>();
+            Food food = new Food();
+            using (var context = new FastFoodContext())
+            {
+                food = context.Foods.FirstOrDefault(x => x.Id == id);
+                if (food != null)
+                {
+                    relatedFoods = context.Foods.Where(x => x.CategoryId == food.CategoryId && x.Id != food.Id).Take(3).ToList();
+                }
+            }
+            if (food == null)
+            {
+                return NotFound();
+            } else
+            {
+                ViewBag.RelatedFoods = relatedFoods;
+                return View(food);
+            }
         }
     }
 }
