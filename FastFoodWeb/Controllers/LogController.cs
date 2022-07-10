@@ -8,7 +8,7 @@ namespace FastFoodWeb.Controllers
 {
     public class LogController : Controller
     {
-        public IActionResult LogIn(string email, string password, bool isSave)
+        public IActionResult LogIn(string email, string password, string isSave)
         {
             using (var context = new FastFoodContext())
             {
@@ -16,6 +16,13 @@ namespace FastFoodWeb.Controllers
                 if (account != null)
                 {
                     HttpContext.Session.SetString("Account", JsonConvert.SerializeObject(account));
+                    if (isSave != null)
+                    {
+                        Response.Cookies.Append("RememberAccount", JsonConvert.SerializeObject(account));
+                    } else
+                    {
+                        Response.Cookies.Delete("RememberAccount");
+                    }
                 }
             }
             return RedirectToAction("Index", "Home");
@@ -40,6 +47,11 @@ namespace FastFoodWeb.Controllers
                 }
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult ForgetPassword()
+        {
+            return View();
         }
     }
 }

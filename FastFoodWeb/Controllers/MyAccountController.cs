@@ -24,12 +24,17 @@ namespace FastFoodWeb.Controllers
             return View();
         }
 
+        public IActionResult Order()
+        {
+            return View();
+        }
+
         public IActionResult DoChangePassword()
         {
             return View();
         }
 
-        public IActionResult ForgetPassword()
+        public IActionResult DoChangeProfile()
         {
             return View();
         }
