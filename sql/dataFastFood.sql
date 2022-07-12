@@ -44,5 +44,6 @@ insert into Foods values ('Sandwich Wrapper', 'https://m.media-amazon.com/images
 insert into Accounts values ('Admin', 999999999999, 'Admin99@gmail.com', '12345', 1, 1)
 insert into Accounts values ('User', 0981987625, 'User1@gmail.com', '1', 1, 1)
 
-
-
+insert into Orders values (2, GETDATE(), 'Yen Ninh-Yen Khanh-Ninh Binh', 1, 1, 2)
+insert into Orders values (1, GETDATE(), 'Yen Ninh-Yen Khanh-Ninh Binh', 1, 2, 2)
+insert into Orders values (3, GETDATE(), 'Yen Ninh-Yen Khanh-Ninh Binh', 1, 3, 2)

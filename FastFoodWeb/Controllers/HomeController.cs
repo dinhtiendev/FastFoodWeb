@@ -17,7 +17,7 @@ namespace FastFoodWeb.Controllers
             List<Food> foods = new List<Food>();
             using (var context = new FastFoodContext())
             {
-                foods = context.Foods.Where(x => x.CategoryId == 1).Take(5).ToList();
+                foods = context.Foods.Where (x => x.IsActive == true && x.CategoryId == 1).Take(5).ToList();
             }
             return View(foods);
         }
@@ -35,15 +35,15 @@ namespace FastFoodWeb.Controllers
                     foods = context.Foods.Skip((page - 1) * 6).Take(6).ToList();
                     maxPage = context.Foods.ToList().Count / 6 + 1;
                 } else if (id == 0) {
-                    foods = context.Foods.Where(x => x.Name.Contains(info)).Skip((page - 1) * 6).Take(6).ToList();
-                    maxPage = context.Foods.Where(x => x.Name.Contains(info)).ToList().Count / 6 + 1;
+                    foods = context.Foods.Where(x => x.IsActive == true && x.Name.Contains(info)).Skip((page - 1) * 6).Take(6).ToList();
+                    maxPage = context.Foods.Where(x => x.IsActive == true && x.Name.Contains(info)).ToList().Count / 6 + 1;
                 } else if (String.IsNullOrWhiteSpace(info)) {
-                    foods = context.Foods.Where(x => x.CategoryId == id).Skip((page - 1) * 6).Take(6).ToList();
-                    maxPage = context.Foods.Where(x => x.CategoryId == id).ToList().Count / 6 + 1;
+                    foods = context.Foods.Where(x => x.IsActive == true && x.CategoryId == id).Skip((page - 1) * 6).Take(6).ToList();
+                    maxPage = context.Foods.Where(x => x.IsActive == true && x.CategoryId == id).ToList().Count / 6 + 1;
                 } else
                 {
-                    foods = context.Foods.Where(x => x.CategoryId == id && x.Name.Contains(info)).Skip((page - 1) * 6).Take(6).ToList();
-                    maxPage = context.Foods.Where(x => x.CategoryId == id && x.Name.Contains(info)).ToList().Count / 6 + 1;
+                    foods = context.Foods.Where(x => x.IsActive == true && x.CategoryId == id && x.Name.Contains(info)).Skip((page - 1) * 6).Take(6).ToList();
+                    maxPage = context.Foods.Where(x => x.IsActive == true && x.CategoryId == id && x.Name.Contains(info)).ToList().Count / 6 + 1;
                 }
                 
             }
@@ -64,7 +64,7 @@ namespace FastFoodWeb.Controllers
                 food = context.Foods.FirstOrDefault(x => x.Id == id);
                 if (food != null)
                 {
-                    relatedFoods = context.Foods.Where(x => x.CategoryId == food.CategoryId && x.Id != food.Id).Take(3).ToList();
+                    relatedFoods = context.Foods.Where(x => x.IsActive == true && x.CategoryId == food.CategoryId && x.Id != food.Id).Take(3).ToList();
                 }
             }
             if (food == null)

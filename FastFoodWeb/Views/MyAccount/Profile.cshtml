@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-sm-12 col-md-8 col-lg-8 pb-30">
                     <div class="account-info">
-                        <form action="" method="post">
+                        <form action="/MyAccount/ChangeProfile" method="post">
                             <div class="account-setting-item">
                                 <div class="sub-section-title">
                                     <h3 class="color-white">Edit Profile</h3>
@@ -107,7 +107,7 @@
                                 <button class="btn btn-small">Change Profile</button>
                             </div>
                         </form>
-                        <form action="" method="post">
+                        <form action="/MyAccount/ChangePassword" method="post">
                             <div class="account-setting-item account-setting-avatar">
                                 <div class="sub-section-title">
                                     <h3 class="color-white">Change Password</h3>
@@ -120,7 +120,7 @@
                                                     <span class="input-group-text"><i
                                                             class="flaticon-login-1"></i></span>
                                                 </div>
-                                                <input type="password" name="pass1" id="pass1"
+                                                <input type="password" name="curPassword" id="curPassword"
                                                     class="form-control password" placeholder="Current Password" />
                                                 <div class="input-group-append">
                                                     <span class="input-group-text reveal">
@@ -140,7 +140,7 @@
                                                     <span class="input-group-text"><i
                                                             class="flaticon-login-1"></i></span>
                                                 </div>
-                                                <input type="password" name="pass2" id="pass2"
+                                                <input type="password" name="password" id="password"
                                                     class="form-control password" placeholder="New Password" />
                                                 <div class="input-group-append">
                                                     <span class="input-group-text reveal">
@@ -160,7 +160,7 @@
                                                     <span class="input-group-text"><i
                                                             class="flaticon-login-1"></i></span>
                                                 </div>
-                                                <input type="password" name="pass3" id="pass3"
+                                                <input type="password" name="confirm-password" id="confirm_password"
                                                     class="form-control password" placeholder="Confirm New Password" />
                                                 <div class="input-group-append">
                                                     <span class="input-group-text reveal">
@@ -173,8 +173,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <h4 id="message"></h4>
                             <div class="account-setting-item account-setting-button">
-                                <button class="btn btn-small">Change Password</button>
+                                <button class="btn btn-small" id="submit">Change Password</button>
                             </div>
                         </form>
                     </div>
