@@ -11,22 +11,68 @@ namespace FastFoodWeb.Controllers
     {
         public IActionResult Profile()
         {
-            return View();
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Cart()
         {
-            return View();
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        public void DoCart()
+        {
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                
+            }
         }
 
         public IActionResult Wish()
         {
-            return View();
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                Account account = JsonConvert.DeserializeObject<Account>(acc);
+                List<Wish> wishs = new List<Wish>();
+                using (var context = new FastFoodContext())
+                {
+                    context.Foods.ToList();
+                    wishs = context.Wishs.Where(x => x.AccountId == account.Id).ToList();
+                }
+                return View(wishs);
+            }
+            return RedirectToAction("Index", "Home");
+            
+        }
+
+        public void DoWish()
+        {
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                
+            }
         }
 
         public IActionResult Checkout()
         {
-            return View();
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Order()

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using FastFoodWeb.Models
+@model List<Wish>
+@{
     ViewData["Title"] = "Cart Page";
 }
 
@@ -48,51 +50,23 @@
             <div class="cart-table cart-table-dark">
                 <table>
                     <tbody>
-                        <tr>
+                        @foreach (Wish wish in Model)
+                       {
+                           <tr>
                             <td class="cancel"><a href="#"><i class='flaticon-cancel'></i></a></td>
                             <td>
                                 <div class="product-table-info">
                                     <div class="product-table-thumb">
-                                        <img src="~/images/product-1.png" alt="product">
+                                        <img src="@wish.Food.Image" alt="product">
                                     </div>
                                 </div>
                             </td>
-                            <td class="td-product-name">Crispy Chicken Burger</td>
-                            <td>FA-001-001</td>
-                            <td>$4.50</td>
+                            <td class="td-product-name">@wish.Food.Name</td>
+                            <td>$ @wish.Food.Price</td>
                             <td><a href="#" class="btn">Add To Cart <i
-                                        class="flaticon-shopping-cart-black-shape"></i></a></td>
+                                        class="fa fa-shopping-cart"></i></a></td>
                         </tr>
-                        <tr>
-                            <td class="cancel"><a href="#"><i class='flaticon-cancel'></i></a></td>
-                            <td>
-                                <div class="product-table-info">
-                                    <div class="product-table-thumb">
-                                        <img src="~/images/product-4.png" alt="product">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="td-product-name">Red Sause Pizza</td>
-                            <td>FA-001-002</td>
-                            <td>$8.00</td>
-                            <td><a href="#" class="btn">Add To Cart <i
-                                        class="flaticon-shopping-cart-black-shape"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class="cancel"><a href="#"><i class='flaticon-cancel'></i></a></td>
-                            <td>
-                                <div class="product-table-info">
-                                    <div class="product-table-thumb">
-                                        <img src="~/images/product-7.png" alt="product">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="td-product-name">Chicken Sandwitch</td>
-                            <td>FA-001-003</td>
-                            <td>$8.00</td>
-                            <td><a href="#" class="btn">Add To Cart <i
-                                        class="flaticon-shopping-cart-black-shape"></i></a></td>
-                        </tr>
+                       }
                     </tbody>
                 </table>
             </div>

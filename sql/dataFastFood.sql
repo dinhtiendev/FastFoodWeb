@@ -47,3 +47,13 @@ insert into Accounts values ('User', 0981987625, 'User1@gmail.com', '1', 1, 1)
 insert into Orders values (2, GETDATE(), 'Yen Ninh-Yen Khanh-Ninh Binh', 1, 1, 2)
 insert into Orders values (1, GETDATE(), 'Yen Ninh-Yen Khanh-Ninh Binh', 1, 2, 2)
 insert into Orders values (3, GETDATE(), 'Yen Ninh-Yen Khanh-Ninh Binh', 1, 3, 2)
+
+insert into Carts values (2, 1, 2)
+insert into Carts values (3, 2, 2)
+insert into Carts values (2, 3, 2)
+insert into Carts values (1, 4, 2)
+
+insert into Wishs values (1, 2)
+insert into Wishs values (2, 2)
+insert into Wishs values (3, 2)
+insert into Wishs values (4, 2)

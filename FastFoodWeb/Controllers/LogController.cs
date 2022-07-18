@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FastFoodWeb.Controllers
@@ -16,6 +17,12 @@ namespace FastFoodWeb.Controllers
                 if (account != null)
                 {
                     HttpContext.Session.SetString("Account", JsonConvert.SerializeObject(account));
+                    context.Foods.ToList();
+                    List<Cart> listCart = context.Carts.Where(x => x.AccountId == account.Id).ToList();
+                    HttpContext.Session.SetString("Carts", JsonConvert.SerializeObject(listCart, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
                     if (isSave != null)
                     {
                         Response.Cookies.Append("RememberAccount", JsonConvert.SerializeObject(account));
