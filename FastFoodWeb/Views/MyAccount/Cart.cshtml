@@ -6,6 +6,7 @@
     ViewData["Title"] = "Cart Page";
 }
 
+
 <div class="header-bg header-bg-page">
         <div class="header-padding position-relative">
             <div class="header-page-shape">
@@ -49,60 +50,63 @@
 
     <section class="cart-section pt-100 pb-70 bg-black">
         <div class="container">
-            <div class="cart-table cart-table-dark">
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Product</th>
-                            <th>Id</th>
-                            <th>Unit Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @{
-                        double total = 0;
-                    }
-                    @foreach (Cart cart in JsonConvert.DeserializeObject<List<Cart>>(HttpContextAccessor.HttpContext.Session.GetString("Carts")))
-                    {
-                         @(total += (cart.Quantity * cart.Food.Price))
-                        <tr>
-                            <td class="cancel"><a href="#"><i class='fa fa-times'></i></a></td>
-                            <td>
-                                <div class="product-table-info">
-                                    <div class="product-table-thumb">
-                                        <img src="@cart.Food.Image" alt="product">
+            <form action="/MyAccount/UpdateCart" method="post">
+                <div class="cart-table cart-table-dark">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th>Product</th>
+                                <th>Id</th>
+                                <th>Unit Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @{
+                            double total = 0;
+                        }
+                        @foreach (Cart cart in JsonConvert.DeserializeObject<List<Cart>>(HttpContextAccessor.HttpContext.Session.GetString("Carts")))
+                        {
+                                @(total += (cart.Quantity * cart.Food.Price))
+                            <tr>
+                                <td class="cancel"><a href="/MyAccount/RemoveCart/@cart.Id"><i class='fa fa-times'></i></a></td>
+                                <td>
+                                    <div class="product-table-info">
+                                        <div class="product-table-thumb">
+                                            <img src="@cart.Food.Image" alt="product">
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="td-product-name">@cart.Food.Name</td>
-                            <td>@cart.Id</td>
-                            <td>$ @cart.Food.Price</td>
-                            <td>
-                                <div class="cart-quantity">
-                                    <button class="qu-btn dec">-</button>
-                                    <input type="text" class="qu-input" value="@cart.Quantity">
-                                    <button class="qu-btn inc">+</button>
-                                </div>
-                            </td>
-                            <td class="td-total-price">$ @(cart.Food.Price * cart.Quantity)</td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
-            <div class="row justify-content-between align-items-center mt-30">
-                <div class="col-sm-12 col-md-4 col-lg-3">
-                    <div class="cart-update cart-info-item">
-                        <a href="#" class="btn full-width">
-                            Update Cart
-                        </a>
+                                </td>
+                                <td class="td-product-name">@cart.Food.Name</td>
+                                <td>@cart.Id</td>
+                                <td>$ @cart.Food.Price</td>
+                                <td>
+                                    <div class="cart-quantity">
+                                        <div class="qu-btn dec">-</div>
+                                        <input type="text" class="qu-input" name="quantity-@cart.Id" value="@cart.Quantity">
+                                        <div class="qu-btn inc">+</div>
+                                    </div>
+                                </td>
+                                <td class="td-total-price">$ @(cart.Food.Price * cart.Quantity)</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                
+                </div>
+                <div class="row justify-content-between align-items-center mt-30">
+                    <div class="col-sm-12 col-md-4 col-lg-3">
+                        <div class="cart-update cart-info-item">
+                            <button class="btn full-width">
+                                Update Cart
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
             <div class="row">
                 <div class="col-sm-12 col-md-8 col-lg-6 pb-30 offset-lg-3 offset-md-2">
                     <div class="cart-details mt-20">

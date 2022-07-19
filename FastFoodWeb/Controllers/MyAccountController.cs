@@ -1,7 +1,9 @@
 ﻿using FastFoodWeb.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,13 +31,61 @@ namespace FastFoodWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public void DoCart()
+        public IActionResult UpdateCart()
         {
             string? acc = HttpContext.Session.GetString("Account");
             if (acc != null)
             {
-                
+                Account account = JsonConvert.DeserializeObject<Account>(acc);
+                using (var context = new FastFoodContext())
+                {
+                    foreach (Cart cart in JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("Carts")))
+                    {
+                        int quantity = Convert.ToInt32(Request.Form["quantity-" + cart.Id]);
+                        cart.Quantity = quantity;
+                        try
+                        {
+                            var a = context.Carts.Update(cart);
+                        } catch { }
+                        //AsNoTracking()
+                    }
+                    context.SaveChanges();
+                    context.Foods.ToList();
+                    List<Cart> listCart = context.Carts.Where(x => x.AccountId == account.Id).ToList();
+                    HttpContext.Session.SetString("Carts", JsonConvert.SerializeObject(listCart, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+                    return RedirectToAction("Cart", "MyAccount");
+                }
             }
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult RemoveCart(int id)
+        {
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null && id != null)
+            {
+                Account account = JsonConvert.DeserializeObject<Account>(acc);
+                using (var context = new FastFoodContext())
+                {
+                    Cart c = context.Carts.FirstOrDefault(x => x.Id == id);
+                    if (c != null)
+                    {
+                        context.Carts.Remove(c);
+                        context.SaveChanges();
+                        context.Foods.ToList();
+                        List<Cart> listCart = context.Carts.Where(x => x.AccountId == account.Id).ToList();
+                        HttpContext.Session.SetString("Carts", JsonConvert.SerializeObject(listCart, Formatting.Indented, new JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        }));
+                        return RedirectToAction("Cart", "MyAccount");
+                    }
+                }
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Wish()
@@ -56,13 +106,24 @@ namespace FastFoodWeb.Controllers
             
         }
 
-        public void DoWish()
+        public IActionResult RemoveWish(int id)
         {
             string? acc = HttpContext.Session.GetString("Account");
             if (acc != null)
             {
-                
+                Account account = JsonConvert.DeserializeObject<Account>(acc);
+                using (var context = new FastFoodContext())
+                {
+                    Wish w = context.Wishs.FirstOrDefault(x => x.Id == id);
+                    if (w != null)
+                    {
+                        context.Wishs.Remove(w);
+                        context.SaveChanges();
+                        return RedirectToAction("Wish", "MyAccount");
+                    }
+                }
             }
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Checkout()
