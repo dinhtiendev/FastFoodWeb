@@ -1,7 +1,9 @@
 ﻿
 using FastFoodWeb.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -65,6 +67,20 @@ namespace FastFoodWeb.Controllers
                 if (food != null)
                 {
                     relatedFoods = context.Foods.Where(x => x.IsActive == true && x.CategoryId == food.CategoryId && x.Id != food.Id).Take(3).ToList();
+                    string? acc = HttpContext.Session.GetString("Account");
+                    if (acc != null)
+                    {
+                        Account account = JsonConvert.DeserializeObject<Account>(acc);
+                        Wish wish = context.Wishs.FirstOrDefault(x => x.AccountId == account.Id && x.FoodId == food.Id);
+                        if (wish != null)
+                        {
+                            ViewBag.IsWish = true;
+                        } else
+                        {
+                            ViewBag.IsWish = false;
+                        }
+                    }
+                    
                 }
             }
             if (food == null)

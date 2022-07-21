@@ -50,6 +50,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
+
+
 <body>
     <div class="preloader bg-main">
         <div class="preloader-wrapper">
@@ -66,7 +68,7 @@
             </div>
         </div>
     </div>
-
+    
     @{
         var index = "";
         var shop = "";
@@ -421,9 +423,36 @@
                 $('#message').html('Not Matching').css('color', 'red');
                 $('#submit').attr('disabled', true);
             }
-                
         });
     </script>
+
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Account") != null)
+            {
+                <script>
+                    $('.addCart').click(function () {
+                        event.preventDefault();
+                        $.post("/MyAccount/AddCart", "id=" + $(this).attr("value"), function (data) {
+                            alert("Add cart successfully");
+                        });
+                    });
+                    $('.addWish').click(function () {
+                        event.preventDefault();
+                        $.post("/MyAccount/AddWish", "id=" + $(this).attr("value"), function (data) {
+                            alert("Add wishlist successfully");
+                        });
+                    });
+                </script>
+            } else {
+                <script>
+                    $('.addCart').click(function () {
+                        alert("Sign up to add cart!");
+                    });
+                    $('.addWish').click(function () {
+                        alert("Sign up to add wishlist!");
+                    });
+                </script>
+            }
+    
 
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
@@ -462,6 +491,8 @@
     <script src="~/js/jquery.meanmenu.min.js"></script>
 
     <script src="~/js/script.js"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("scripts", required: false)
 </body>
 </html>

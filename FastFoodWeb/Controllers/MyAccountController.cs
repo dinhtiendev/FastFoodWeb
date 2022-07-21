@@ -31,6 +31,36 @@ namespace FastFoodWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public void AddCart(int id)
+        {
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                Account account = JsonConvert.DeserializeObject<Account>(acc);
+                using (var context = new FastFoodContext())
+                {
+                    Cart cart = context.Carts.FirstOrDefault(x => x.AccountId == account.Id && x.FoodId == id);
+                    if (cart == null)
+                    {
+                        cart = new Cart { FoodId = id, AccountId = account.Id, Quantity = 1 };
+                        context.Carts.Add(cart);
+                    } else
+                    {
+                        cart.Quantity += 1;
+                        context.Carts.Update(cart);
+                    }
+                    context.SaveChanges();
+                    context.Foods.ToList();
+                    List<Cart> listCart = context.Carts.Where(x => x.AccountId == account.Id).ToList();
+                    HttpContext.Session.SetString("Carts", JsonConvert.SerializeObject(listCart, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+                }
+            }
+        }
+
         public IActionResult UpdateCart()
         {
             string? acc = HttpContext.Session.GetString("Account");
@@ -106,6 +136,26 @@ namespace FastFoodWeb.Controllers
             
         }
 
+        [HttpPost]
+        public void AddWish(int id)
+        {
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                Account account = JsonConvert.DeserializeObject<Account>(acc);
+                using (var context = new FastFoodContext())
+                {
+                    Wish wish = context.Wishs.FirstOrDefault(x => x.AccountId == account.Id && x.FoodId == id);
+                    if (wish == null)
+                    {
+                        wish = new Wish { FoodId = id, AccountId = account.Id};
+                        context.Wishs.Add(wish);
+                    }
+                    context.SaveChanges();
+                }
+            }
+        }
+
         public IActionResult RemoveWish(int id)
         {
             string? acc = HttpContext.Session.GetString("Account");
@@ -127,6 +177,16 @@ namespace FastFoodWeb.Controllers
         }
 
         public IActionResult Checkout()
+        {
+            string? acc = HttpContext.Session.GetString("Account");
+            if (acc != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult DoCheckout()
         {
             string? acc = HttpContext.Session.GetString("Account");
             if (acc != null)

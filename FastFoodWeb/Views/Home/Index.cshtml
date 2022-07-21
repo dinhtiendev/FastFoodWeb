@@ -49,15 +49,15 @@
                             @foreach (Food food in Model)
                            {
                                <div class="menu-details-carousel-item menu-details-carousel-black">
-                                <h3>@food.Name</h3>
-                                <h4 class="menu-price">@food.Price $</h4>
-                                <a href="#" class="btn btn-yellow">
-                                    Add To Cart <i class="fa fa-shopping-cart"></i>
-                                </a>
-                                <div class="menu-details-carousel-image">
-                                    <img src="@food.Image" style="height: 100px" alt="menu">
+                                    <h3>@food.Name</h3>
+                                    <h4 class="menu-price">@food.Price $</h4>
+                                    <button class="btn btn-yellow addCart" value="@food.Id">
+                                        Add To Cart <i class="fa fa-shopping-cart"></i>
+                                    </button>
+                                    <div class="menu-details-carousel-image">
+                                        <img src="@food.Image" style="height: 100px" alt="menu">
+                                    </div>
                                 </div>
-                            </div>
                            }
                 </div>
             </div>

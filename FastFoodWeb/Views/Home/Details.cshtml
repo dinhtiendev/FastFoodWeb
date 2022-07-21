@@ -1,6 +1,9 @@
 ﻿@using FastFoodWeb.Models
 @model Food
 
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 @{
     ViewData["Title"] = "Details Page";
 }
@@ -75,20 +78,22 @@
                             <div class="product-action-info mb-20">
                                 <div class="d-flex flex-wrap align-items-center
                                     product-quantity">
-                                    <button class="btn btn-icon product-quantity-item">
+                                    <button class="btn btn-icon product-quantity-item addCart" value="@Model.Id">
                                         Add To Cart
-                                        <i class="flaticon-shopping-cart-black-shape"></i>
+                                        <i class="fa fa-shopping-cart"></i>
                                     </button>
-                                    <div class="cart-quantity product-quantity-item">
-                                        <button class="qu-btn dec">-</button>
-                                        <input type="text" class="qu-input" value="1">
-                                        <button class="qu-btn inc">+</button>
-                                    </div>
                                 </div>
                             </div>
                             <div class="product-action-info">
                                 <div class="product-add-wishlist">
-                                    <a href="#"><i class="flaticon-heart"></i>Add To Wishlist</a>
+                                @if (ViewBag.IsWish == true)
+                                {
+                                    <button style="color: red"><i class="fa fa-heart"></i>Add To Wishlist</button>
+                                } else
+                                {
+                                    <button class="addWish" value="@Model.Id"><i class="fa fa-heart"></i>Add To Wishlist</button>
+                                }
+
                                 </div>
                             </div>
                         </div>
