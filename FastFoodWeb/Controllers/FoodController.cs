@@ -4,7 +4,7 @@ namespace FastFoodWeb.Controllers
 {
     public class FoodController : Controller
     {
-        public IActionResult Index()
+        public IActionResult List()
         {
             return View();
         }

@@ -1,5 +1,103 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using FastFoodWeb.Models
+@model List<Account>
 @{
+    ViewData["Title"] = "Manage Customer";
 }
+
+<div class="header-bg header-bg-page">
+        <div class="header-padding position-relative">
+            <div class="header-page-shape">
+                <div class="header-page-shape-item">
+                    <img src="~/images/header-shape-1.png" alt="shape">
+                </div>
+                <div class="header-page-shape-item">
+                    <img src="~/images/header-shape-2.png" alt="shape">
+                </div>
+                <div class="header-page-shape-item">
+                    <img src="~/images/header-shape-3.png" alt="shape">
+                </div>
+                <div class="header-page-shape-item">
+                    <img src="~/images/header-shape-1.png" alt="shape">
+                </div>
+                <div class="header-page-shape-item">
+
+                </div>
+                <div class="header-page-shape-item">
+                    <img src="~/images/header-shape-1.png" alt="shape">
+                </div>
+                <div class="header-page-shape-item">
+
+                </div>
+            </div>
+            <div class="container">
+                <div class="header-page-content">
+                    <h1>List Customer</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Manage</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Customer</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="shop-section pt-100 pb-70 bg-black">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-4 col-lg-3 ali">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                  Add Customer
+                </button>
+                </div>
+                <div class="modal" id="myModal">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+
+                      <!-- Modal Header -->
+                      <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+
+                      <!-- Modal body -->
+                      <div class="modal-body">
+                        Modal body..
+                      </div>
+
+                      <!-- Modal footer -->
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <table class="table table-dark table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">First</th>
+                      <th scope="col">Last</th>
+                      <th scope="col">Handle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td>mdo</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                      <td>fat</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </section>

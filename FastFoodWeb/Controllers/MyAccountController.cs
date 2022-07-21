@@ -186,12 +186,32 @@ namespace FastFoodWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult DoCheckout()
+        public IActionResult DoCheckout(string street, string town, string state, string country)
         {
             string? acc = HttpContext.Session.GetString("Account");
             if (acc != null)
             {
-                return View();
+                Account account = JsonConvert.DeserializeObject<Account>(acc);
+                using (var context = new FastFoodContext())
+                {
+                    List<Cart> listCart = JsonConvert.DeserializeObject<List<Cart>>(HttpContext.Session.GetString("Carts"));
+                    string address = street + " - " + town + " - " + state + " - " + country;
+                    foreach (var cart in listCart)
+                    {
+                        try
+                        {
+                            context.Orders.Add(new Order { Quantity = cart.Quantity, Address = address, CreateAt = DateTime.Now, FoodId = cart.FoodId, IsActive = true, AccountId = account.Id });
+                            context.Carts.Remove(cart);
+                        } catch { }
+                    }
+                    List<Cart> carts = context.Carts.Where(x => x.AccountId == account.Id).ToList();
+                    HttpContext.Session.SetString("Carts", JsonConvert.SerializeObject(carts, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+                    context.SaveChanges();
+                }
+                return RedirectToAction("Order", "MyAccount");
             }
             return RedirectToAction("Index", "Home");
         }
