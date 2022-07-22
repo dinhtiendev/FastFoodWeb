@@ -46,56 +46,160 @@
     <section class="shop-section pt-100 pb-70 bg-black">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 col-md-4 col-lg-3 ali">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                  Add Customer
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddAccount">
+                  Add Account
                 </button>
                 </div>
-                <div class="modal" id="myModal">
+                <div class="modal" id="AddAccount">
                   <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class="modal-content ">
 
                       <!-- Modal Header -->
                       <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
+                        <h4 class="modal-title">Add Account</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                       </div>
 
                       <!-- Modal body -->
                       <div class="modal-body">
-                        Modal body..
-                      </div>
-
+                          <form action="/Customer/Add" method="post">
+                        <div class="form-group p-3 mb-2 bg-dark">
+                            <label for="Name">Name</label>
+                            <input type="text" class="form-control" id="Name" name="NewAccount.Name" placeholder="Enter Name">
+                        </div>
+                        <div class="form-group p-3 mb-2 bg-dark">
+                            <label for="Phone">Phone</label>
+                            <input type="text" class="form-control" id="Phone" name="NewAccount.Phone" placeholder="Enter Phone">
+                        </div>
+                        <div class="form-group p-3 mb-2 bg-dark">
+                            <label for="Email">Email</label>
+                            <input type="text" class="form-control" id="Email" name="NewAccount.Email" placeholder="Enter Email">
+                        </div>
+                        <div class="form-group p-3 mb-2 bg-dark">
+                            <label for="Password">Password</label>
+                            <input type="text" class="form-control" id="Password" name="NewAccount.Password" placeholder="Enter Password">
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" checked type="radio" name="NewAccount.IsActive" id="inlineRadio1" value="true">
+                          <label class="form-check-label" for="inlineRadio1">Active</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="NewAccount.IsActive" id="inlineRadio2" value="false">
+                          <label class="form-check-label" for="inlineRadio2">Not Active</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
                       <!-- Modal footer -->
                       <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                       </div>
-
+                     </div>
                     </div>
                   </div>
                 </div>
+
                 <table class="table table-dark table-striped">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Password</th>
+                      <th scope="col">Is Active</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>fat</td>
-                    </tr>
+                      @foreach (Account account in Model)
+                     {
+                         <tr>
+                          <th scope="row">@account.Id</th>
+                          <td>@account.Name</td>
+                          <td>@account.Phone</td>
+                          <td>@account.Email</td>
+                          <td>@account.Password</td>
+                            @if (account.IsActive == true)
+                            {
+                                <td><button type="button" class="btn btn-primary">Active</button></td>
+                            } else
+                            {
+                                <td><button type="button" class="btn btn-secondary">Not Active</button></td>
+                            }
+                            <td>
+                                <div class="col-sm-12 col-md-4 col-lg-3">
+                                    <div class="fa fa-edit"  data-bs-toggle="modal" data-bs-target="#EditAccount-@account.Id"></div>
+                                    </div>
+                                    <div class="modal" id="EditAccount-@account.Id">
+                                      <div class="modal-dialog">
+                                        <div class="modal-content ">
+
+                                          <!-- Modal Header -->
+                                          <div class="modal-header">
+                                            <h4 class="modal-title">Edit Account</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                          </div>
+
+                                          <!-- Modal body -->
+                                          <div class="modal-body">
+                                              <form action="/Customer/Edit" method="post">
+                                            <div class="form-group p-3 mb-2 bg-dark">
+                                                <label for="ID">ID</label>
+                                                <input type="text" class="form-control" id="ID" name="EditAccount.Id" placeholder="Enter ID" value="@account.Id" readonly>
+                                            </div>
+                                            <div class="form-group p-3 mb-2 bg-dark">
+                                                <label for="Name">Name</label>
+                                                <input type="text" class="form-control" id="Name" name="EditAccount.Name" placeholder="Enter Name" value="@account.Name">
+                                            </div>
+                                            <div class="form-group p-3 mb-2 bg-dark">
+                                                <label for="Phone">Phone</label>
+                                                <input type="text" class="form-control" id="Phone" name="EditAccount.Phone" placeholder="Enter Phone" value="@account.Phone">
+                                            </div>
+                                            <div class="form-group p-3 mb-2 bg-dark">
+                                                <label for="Price">Email</label>
+                                                <input type="email" class="form-control" id="Email" name="EditAccount.Email" placeholder="Enter Email" value="@account.Email">
+                                            </div>
+                                            <div class="form-group p-3 mb-2 bg-dark">
+                                                <label for="Password">Password</label>
+                                                <input type="text" class="form-control" id="Password" name="EditAccount.Password" placeholder="Enter Password" value="@account.Password">
+                                            </div>
+                                            @if (account.IsActive == true) {
+                                                <div class="form-check form-check-inline p-3 mb-2 bg-dark">
+                                                  <input class="form-check-input" checked type="radio" name="EditAccount.IsActive" id="inlineRadio1" value="true">
+                                                  <label class="form-check-label" for="inlineRadio1">Active</label>
+                                                </div>
+                                                <div class="form-check form-check-inline p-3 mb-2 bg-dark">
+                                                  <input class="form-check-input" type="radio" name="EditAccount.IsActive" id="inlineRadio2" value="false">
+                                                  <label class="form-check-label" for="inlineRadio2">Not Active</label>
+                                                </div>
+                                            } else {
+                                                <div class="form-check form-check-inline p-3 mb-2 bg-dark">
+                                                  <input class="form-check-input" type="radio" name="EditAccount.IsActive" id="inlineRadio1" value="true">
+                                                  <label class="form-check-label" for="inlineRadio1">Active</label>
+                                                </div>
+                                                <div class="form-check form-check-inline p-3 mb-2 bg-dark">
+                                                  <input class="form-check-input" checked type="radio" name="EditAccount.IsActive" id="inlineRadio2" value="false">
+                                                  <label class="form-check-label" for="inlineRadio2">Not Active</label>
+                                                </div>
+                                            }
+                                            
+                                            
+                                            <button type="submit" class="btn btn-primary">Edit</button>
+                                            </form>
+                                          <!-- Modal footer -->
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                          </div>
+                                         </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                <a href="/Customer/Delete/@account.Id"><div class="fa fa-trash"></div></a>
+                            </td>
+                        </tr>
+                     }
                   </tbody>
                 </table>
             </div>
